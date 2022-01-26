@@ -15,10 +15,16 @@ struct ContentView: View {
     var body: some View {
         NavigationView {
             List {
-                ForEach(users.userStore) { user in
-                    UserRowView(user: user)
-                }.onDelete { indexSet in
-                    users.deleteUser(at: indexSet)
+                if(users.userStore.isEmpty) {
+                    Button("Add your first user") {
+                        showUser = true
+                    }
+                } else {
+                    ForEach(users.userStore) { user in
+                        UserRowView(user: user)
+                    }.onDelete { indexSet in
+                        users.deleteUser(at: indexSet)
+                    }
                 }
             }
             .navigationTitle("Users")
@@ -29,6 +35,7 @@ struct ContentView: View {
                         UserInputView()
                     })
         }
+       
 }
 
 struct ContentView_Previews: PreviewProvider {
