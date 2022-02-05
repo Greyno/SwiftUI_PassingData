@@ -7,6 +7,11 @@
 
 import Foundation
 
+//Change the User from a struct to a class so that now we have a ModelObject
+//By making User an ObservableObject, a User will listen to changes to its published variables and when that happens, anything observing the user can respond
+//So when we make changes in one view, those changes will be observed in another view
+//Conform @Publishable items to codable: https://www.hackingwithswift.com/books/ios-swiftui/adding-codable-conformance-for-published-properties
+
 class User: ObservableObject, Identifiable, Codable, Hashable {
     static func == (lhs: User, rhs: User) -> Bool {
         lhs.firstName == rhs.firstName && lhs.lastName == rhs.lastName
