@@ -18,25 +18,27 @@ class User: ObservableObject, Identifiable, Codable, Hashable {
     }
     
     
-    let id = UUID()
+    @Published var id = UUID()
     @Published var firstName: String
     @Published var lastName: String
     
-    //Functions for adding codable conformance for the @Published properties: eCodingKeys, decoder and encoder containers
+    //Functions for adding codable conformance for the @Published properties: CodingKeys, decoder and encoder containers
     enum CodingKeys: CodingKey {
-        case firstName, lastName
+        case firstName, lastName, id
     }
     
     required init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         firstName = try container.decode(String.self, forKey: .firstName)
         lastName = try container.decode(String.self, forKey: .lastName)
+        id = try container.decode(UUID.self, forKey: .id)
     }
     
     func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encode(firstName, forKey: .firstName)
         try container.encode(lastName, forKey: .lastName)
+        try container.encode(id, forKey: .id)
     }
     
     //To help with our SwiftUI previews, create an init with default values
