@@ -14,7 +14,7 @@ class Users: ObservableObject {
 
     var userStore: [User] { usersCache }
 
-    //Load/save files from/to the Document directory, instead of from the app bundle
+    //Load/save files from/to the Document directory, instead of to/from User Defaults
    let usersJsonUrl = URL(fileURLWithPath: "UserNames", relativeTo: FileManager.documentsDirectoryURL).appendingPathExtension("json")
     
     @Published var usersCache = [User]() {
@@ -45,13 +45,13 @@ class Users: ObservableObject {
     
     private func loadUserNames() {
         print("Document directory url: \(FileManager.documentsDirectoryURL.absoluteURL)")
-        //Gracefully handle having no PList file in the documents directory
+       //Gracefully handle having no JSON file in the documents directory
         guard FileManager.default.fileExists(atPath: usersJsonUrl.path) else { return }
         
         //Create a JSON decoder object
         let jsonDecoder = JSONDecoder()
         
-        //Load contents of the PList (from the Document directory URL) as Swift Data, then decode these Data objects to a Swift type
+        //Load contents of the JSON (from the Document directory URL) as Swift Data, then decode these Data objects to a Swift type
         do {
             let userNamesData = try Data(contentsOf: usersJsonUrl)
             usersCache = try jsonDecoder.decode([User].self, from: userNamesData)
